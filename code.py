@@ -3,7 +3,6 @@ import cv2 # library to de computer vision
 import numpy as np # library that able to work with arrays
 import wx
 from tkinter import *
-from tkinter.ttk import * 
 from PIL import Image, ImageTk
 from screeninfo import get_monitors
 
@@ -26,10 +25,6 @@ def masksProcess(img, lowerBound, upperBound, kernelOpen, kernelClose):
     mask=cv2.inRange(imgHSV,lowerBound,upperBound)
     maskOpen=cv2.morphologyEx(mask,cv2.MORPH_OPEN,kernelOpen) # removes false positive
     maskClose=cv2.morphologyEx(maskOpen,cv2.MORPH_CLOSE,kernelClose) # removes false negative
-
-    # maskDilate = cv2.dilate(maskClose, None, iterations=0)
-    # maskErode = cv2.erode(maskDilate, None, iterations=0)
-
     maskFinal = maskClose
 
     return maskFinal
@@ -106,8 +101,6 @@ def subY(coordenadas, velocidade):
     return coordenadas[1]
 
 def mouseControl(coordenadas, comando):
-    # mouseSelect = 0
-    # print('X = ' + str(int(coordenadas[0])) + '          ||      Y = ' + str(int(coordenadas[1])))
     if comando == 1:        #up
         coordenadas[1] = subY(coordenadas, velocidade) # movimenta p/ cima
         
@@ -161,7 +154,6 @@ def drawRectangle(img):
     
 
 def checkMousePosition(x, y):
-    # print('X = ' + str(int(x)) + '          ||      Y = ' + str(int(y)))
     if (x > 460 and x < 650) and (y > 220 and y < 340): # up left
         mouseControl(coordenadas, 5)
 
@@ -185,13 +177,6 @@ def checkMousePosition(x, y):
 
     if (x > 900 and x < 1100) and (y > 475 and y < 600): #down right
         mouseControl(coordenadas, 8)
-
-
-def bt7_click(): #botao +
-    val = int(lb4["text"])
-    print(val)
-    lb4["text"] = str(val + 1)
-
 
 
 #****************************************************************************************************************
@@ -243,34 +228,13 @@ f1.pack()
 L1 = Label(f1, bg="blue")
 L1.pack()
 
-
-
 root=Toplevel()
 
 root.title('Legenda')
-
 root.geometry("300x200+560+500")
-
 image = PhotoImage(file='img/legenda.png')
 label = Label(root, image=image)
 label.place(anchor='center', relx=0.5, rely=0.35)
-
-style = Style() 
-
-
-# Irá adicionar estilo a todos os botões disponíveis
-# mesmo que não estejamos passando estilo
-# para cada widget de botão. 
-style.configure('TButton', font = 
-               ('calibri', 10, 'bold', 'underline'), 
-                foreground = 'red') 
-# botão 1 
-btn1 = Button(root, text = 'Quit !',  
-                  style = 'TButton', 
-             command = root.destroy) 
-
-btn1.grid(row = 0, column = 3, padx = 100) 
-
 
 
 while(True):
@@ -292,9 +256,6 @@ while(True):
     img = ImageTk.PhotoImage(Image.fromarray(img))
 
     L1['image'] = img
-
-    bt7 = Button(root, width=1, text="+", command=bt7_click)
-    bt7.place(x=130, y=90)
 
     root.update()
 
